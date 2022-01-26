@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimi.kel.core.mapper.DefaultWordMapper">
+
+    <insert id="insertBatch">
+        insert into default_word (
+        id ,
+        parent_id ,
+        word_spell ,
+        description ,
+        tag,
+        create_time,
+        update_time
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id} ,
+            #{item.parentId} ,
+            #{item.wordSpell} ,
+            #{item.description} ,
+            #{item.tag},
+            #{item.createTime} ,
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+    <update id="updateBatch" parameterType="list">
+        update default_word
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="tag=case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.tag!=null">
+                        when word_spell=#{item.wordSpell} then #{item.tag}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="list" separator="or" item="item" index="index">
+            word_spell=#{item.wordSpell}
+        </foreach>
+    </update>
+    <select id="selectWordSpell" resultType="string">
+        select word_spell
+        from default_word
+    </select>
+
+    <!--                      when word_spell=#{item.wordSpell} then concat('select tag from default_word where word_spell = #{item.word_spell}' ,',','#{item.tag}')-->
+
+</mapper>
