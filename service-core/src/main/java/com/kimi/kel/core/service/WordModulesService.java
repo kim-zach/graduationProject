@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface WordModulesService extends IService<WordModules> {
 
+    boolean ifExistModule(String tag);
 }

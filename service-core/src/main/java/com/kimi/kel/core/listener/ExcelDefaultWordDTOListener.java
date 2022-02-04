@@ -69,10 +69,23 @@ public class ExcelDefaultWordDTOListener extends AnalysisEventListener<ExcelInit
             defaultWordQueryWrapper.eq("word_spell",data.getWordSpell());
             DefaultWord defaultWord = defaultWordMapper.selectOne(defaultWordQueryWrapper);
 //            log.info("defaultWord:{}",defaultWord);
-            data.setTag(defaultWord.getTag() + "," + data.getTag());
+//            if(!defaultWord.getTag().equals(data.getTag())) { //同一个词，tag不相同再添加
+                //改进： tag是一个字符串，应该是如果tag包含传进来data的标签则不再往标签追加 eg:"CET4,CET6" "CET6"
+                String[] split = defaultWord.getTag().split(",");
+                //已存在标签与否
+                boolean isTagExist = false;
+                for(String str : split){
+                    if(str.equals(data.getTag())){
+                        isTagExist = true;
+                    }
+                }
+                if(!isTagExist){
+                log.info("split:{}",split);
+                data.setTag(defaultWord.getTag() + "," + data.getTag());
 //            log.info("data.getTag():{}",data.getTag());
-            //将数据存入数据列表
-            updateList.add(data);
+                //将数据存入数据列表
+                updateList.add(data);
+            }
         }
         if(updateList.size() >= BATCH_COUNT){
             updateData();

@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public enum ResponseEnum {
 
-    SUCCESS(20000,"成功"),
+    SUCCESS(0,"成功"),
     ERROR(-1,"服务器内部错误"),
 
     //-1xx 服务器错误
@@ -21,7 +21,7 @@ public enum ResponseEnum {
 
     //-2xx 参数校验
     WORD_TAG_NULL_ERROR(-201, "模块标签不能为空"),
-    WORD_MODULE_NAME_NULL_ERROR(-201, "模块名不能为空"),
+    WORD_MODULE_NAME_NULL_ERROR(-212, "模块名不能为空"),
     MOBILE_NULL_ERROR(-202, "手机号码不能为空"),
     MOBILE_ERROR(-203, "手机号码不正确"),
     PASSWORD_NULL_ERROR(204, "密码不能为空"),

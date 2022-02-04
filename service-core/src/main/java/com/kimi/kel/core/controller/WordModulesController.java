@@ -1,6 +1,7 @@
 package com.kimi.kel.core.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kimi.common.exception.Assert;
 import com.kimi.common.result.R;
 import com.kimi.common.result.ResponseEnum;
@@ -72,9 +73,19 @@ public class WordModulesController {
         Assert.notNull(WordModules.getTag(), ResponseEnum.WORD_TAG_NULL_ERROR);
         Assert.notNull(WordModules.getModuleName(), ResponseEnum.WORD_TAG_NULL_ERROR);
 
-        boolean result = wordModulesService.save(WordModules);
+        //如果tag存在的话，只更新数据不增加模块
+
+        boolean ifExistModule = wordModulesService.ifExistModule(WordModules.getTag());
+        boolean result = false;
+        if(!ifExistModule){
+            //不存在模块再添加模块，存在模块的话只更新模块相应的数据
+            result = wordModulesService.save(WordModules);
+        }
         if(result){
             return R.ok().message("添加成功");
+        }
+        else if(ifExistModule){
+            return R.ok().message("模块已存在，只更新数据");
         }
         else{
             return R.error().message("添加失败");
