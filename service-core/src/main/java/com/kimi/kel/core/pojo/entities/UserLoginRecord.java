@@ -1,8 +1,8 @@
 package com.kimi.kel.core.pojo.entities;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ * 用户登录记录表
  * </p>
  *
  * @author kimi
@@ -21,35 +21,31 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Administrator对象", description="")
-public class Administrator implements Serializable {
+@ApiModel(value="UserLoginRecord对象", description="用户登录记录表")
+public class UserLoginRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "编号")
       @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "name")
-    private String userName;
+    @ApiModelProperty(value = "用户id")
+    private Long userId;
 
-    @ApiModelProperty(value = "password")
-    private String password;
+    @ApiModelProperty(value = "ip")
+    private String ip;
 
-    @ApiModelProperty(value = "is a super adminstrator	")
-    @TableField("is_superAD")
-    private Boolean superad;
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "is deleted")
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "逻辑删除(1:已删除，0:未删除)")
     @TableField("is_deleted")
     @TableLogic
     private Boolean deleted;
-
-    @ApiModelProperty(value = "create time")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "update time")
-    private LocalDateTime updateTime;
 
 
 }

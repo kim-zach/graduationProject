@@ -21,35 +21,49 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="DefaultWord对象", description="")
-public class DefaultWord implements Serializable {
+@ApiModel(value="UserInfo对象", description="")
+public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id")
       @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long parentId;
+    private String mobile;
 
-    @ApiModelProperty(value = "name of the word ")
-    private String wordSpell;
+    private String password;
 
-    @ApiModelProperty(value = "description")
-    private String description;
+    private String nickName;
 
-    @ApiModelProperty(value = "what kind of word")
-    private String tag;
+    private String name;
 
+    private String email;
+
+    @ApiModelProperty(value = "地址")
+    private String address;
+
+    @ApiModelProperty(value = "微信用户标识openid")
+    private String openid;
+
+    @ApiModelProperty(value = "头像")
+    private String avatar;
+
+    @ApiModelProperty(value = "状态 ，（0：锁定，1：正常）")
+    private Integer status;
+
+    @ApiModelProperty(value = "wordGather排名")
+    private Integer rank;
+
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 
+    @ApiModelProperty(value = "逻辑删除（0:未删除，1:删除）")
     @TableField("is_deleted")
     @TableLogic
     private Boolean deleted;
 
 
-    @TableField(exist = false) //表达逻辑概念的属性，和物理表没有关系，当前字段不存在物理表中
-    private boolean hasChildren;
 }
