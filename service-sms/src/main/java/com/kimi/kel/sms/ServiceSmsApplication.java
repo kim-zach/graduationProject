@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan({"com.kimi.kel","com.kimi.common"})
-//@EnableFeignClients
+@EnableFeignClients
 public class ServiceSmsApplication {
 
     public static void main(String[] args) {

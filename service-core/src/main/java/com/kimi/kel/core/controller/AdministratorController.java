@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * @author kimi
  * @since 2022-01-23
  */
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/admin/core")
 public class AdministratorController {

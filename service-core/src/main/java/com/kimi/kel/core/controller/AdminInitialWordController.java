@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Api(tags = "default word management")
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/admin/core/wordGather")
 public class AdminInitialWordController {

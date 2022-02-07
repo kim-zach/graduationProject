@@ -1,6 +1,9 @@
 package com.kimi.kel.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kimi.common.exception.Assert;
 import com.kimi.common.result.ResponseEnum;
 import com.kimi.common.util.MD5;
@@ -10,6 +13,7 @@ import com.kimi.kel.core.pojo.entities.Constant;
 import com.kimi.kel.core.pojo.entities.UserInfo;
 import com.kimi.kel.core.mapper.UserInfoMapper;
 import com.kimi.kel.core.pojo.entities.UserLoginRecord;
+import com.kimi.kel.core.pojo.query.UserInfoQuery;
 import com.kimi.kel.core.pojo.vo.LoginVO;
 import com.kimi.kel.core.pojo.vo.RegisterVO;
 import com.kimi.kel.core.pojo.vo.UserInfoVO;
@@ -97,5 +101,46 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
 
         return userInfoVO;
+    }
+
+    @Override
+    public IPage<UserInfo> listPage(Page<UserInfo> userInfoPage, UserInfoQuery userInfoQuery) {
+        //没有查询条件，展示所有用户
+        if(userInfoQuery == null){
+           return  baseMapper.selectPage(userInfoPage,null);
+        }
+
+        //有查询条件，封装查询条件
+        String mobile = userInfoQuery.getMobile();
+        Integer status = userInfoQuery.getStatus();
+        String name = userInfoQuery.getName();
+        String nickName = userInfoQuery.getNickName();
+
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.like(StringUtils.isNotBlank(mobile),"mobile",mobile)
+        .like(status != null,"status",status)
+        .like(name != null,"name",name)
+        .like(nickName != null,"nick_name",nickName);
+
+        return  baseMapper.selectPage(userInfoPage,userInfoQueryWrapper);
+
+    }
+
+    @Override
+    public void lock(Long id, Integer status) {
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setStatus(status);
+        baseMapper.updateById(userInfo);
+    }
+
+    @Override
+    public boolean checkMobile(String mobile) {
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.eq("mobile",mobile);
+        Integer result = baseMapper.selectCount(userInfoQueryWrapper);
+
+        return result > 0;
     }
 }

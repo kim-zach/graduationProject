@@ -3,6 +3,8 @@ package com.kimi.kel.core.service;
 import com.kimi.kel.core.pojo.entities.UserLoginRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户登录记录表 服务类
@@ -14,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 public interface UserLoginRecordService extends IService<UserLoginRecord> {
 
+    List<UserLoginRecord> listTop50(Long userId);
 }

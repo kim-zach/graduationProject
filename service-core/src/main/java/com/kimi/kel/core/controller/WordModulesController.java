@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Api(value = "单词模块管理")
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping("/admin/core/wordModules")
 public class WordModulesController {

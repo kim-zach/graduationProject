@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @Api(tags = "短信管理")
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("/api/sms")
 public class ApiSmsController {
 
@@ -47,9 +47,9 @@ public class ApiSmsController {
         Assert.isTrue(RegexValidateUtils.checkCellphone(mobile),ResponseEnum.MOBILE_ERROR);
 
         //校验手机号是否已经被注册
-//        boolean result = coreUserInfoClient.checkMobile(mobile);
-//        log.info("result = " + result);
-//        Assert.isTrue(result == false, ResponseEnum.MOBILE_EXIST_ERROR);
+        boolean result = coreUserInfoClient.checkMobile(mobile);
+        log.info("result = " + result);
+        Assert.isTrue(result == false, ResponseEnum.MOBILE_EXIST_ERROR);
 
 
         String code = RandomUtils.getFourBitRandom();

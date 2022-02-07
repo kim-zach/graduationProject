@@ -30,7 +30,7 @@ import java.security.PublicKey;
  * @since 2022-02-06
  */
 @Api(tags = "用户接口")
-@CrossOrigin
+//@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping("/api/core/userInfo")
@@ -95,6 +95,12 @@ public class UserInfoController {
         }else{
             return R.setResult(ResponseEnum.LOGIN_AUTH_ERROR);
         }
+    }
+
+    @ApiOperation("校验手机号是否注册")
+    @GetMapping("/checkMobile/{mobile}")
+    public boolean checkMobile(@PathVariable String mobile){
+        return userInfoService.checkMobile(mobile);
     }
 }
 
