@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.kimi.kel.core.pojo.query.UserInfoQuery;
 import com.kimi.kel.core.pojo.vo.LoginVO;
 import com.kimi.kel.core.pojo.vo.RegisterVO;
+import com.kimi.kel.core.pojo.vo.UserInfoDetailsVO;
 import com.kimi.kel.core.pojo.vo.UserInfoVO;
 
 /**
@@ -29,5 +30,13 @@ public interface UserInfoService extends IService<UserInfo> {
     void lock(Long id, Integer status);
 
     boolean checkMobile(String mobile);
+
+    UserInfoDetailsVO getUserDetailsByMobile(String mobile);
+
+    boolean editUserDetails(UserInfoDetailsVO userInfoDetailsVO);
+
+    boolean validUserNickName(String nickName);
+
+    boolean editNickName(String nickName,Long id);
 
 }

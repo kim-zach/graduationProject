@@ -1,12 +1,14 @@
 package com.kimi.kel.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kimi.common.exception.Assert;
 import com.kimi.common.result.ResponseEnum;
 import com.kimi.common.util.MD5;
+import com.kimi.common.util.RegexValidateUtils;
 import com.kimi.kel.base.util.JwtUtils;
 import com.kimi.kel.core.mapper.UserLoginRecordMapper;
 import com.kimi.kel.core.pojo.entities.Constant;
@@ -16,6 +18,7 @@ import com.kimi.kel.core.pojo.entities.UserLoginRecord;
 import com.kimi.kel.core.pojo.query.UserInfoQuery;
 import com.kimi.kel.core.pojo.vo.LoginVO;
 import com.kimi.kel.core.pojo.vo.RegisterVO;
+import com.kimi.kel.core.pojo.vo.UserInfoDetailsVO;
 import com.kimi.kel.core.pojo.vo.UserInfoVO;
 import com.kimi.kel.core.service.UserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -39,6 +42,8 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Resource
     private UserLoginRecordService userLoginRecordService;
 
+    @Resource
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public void register(RegisterVO registerVO) {
@@ -143,4 +148,90 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         return result > 0;
     }
+
+    @Override
+    public UserInfoDetailsVO getUserDetailsByMobile(String mobile) {
+
+        //号码是否为空
+        Assert.notNull(mobile,ResponseEnum.MOBILE_NULL_ERROR);
+        //号码是否正确
+        Assert.isTrue(RegexValidateUtils.checkCellphone(mobile),ResponseEnum.MOBILE_ERROR);
+
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.eq("mobile",mobile);
+        UserInfo userInfo = baseMapper.selectOne(userInfoQueryWrapper);
+
+        UserInfoDetailsVO userInfoDetailsVO = new UserInfoDetailsVO();
+
+        userInfoDetailsVO.setId(userInfo.getId());
+        userInfoDetailsVO.setMobile(userInfo.getMobile());
+        userInfoDetailsVO.setName(userInfo.getName());
+        userInfoDetailsVO.setAddress(userInfo.getAddress());
+        userInfoDetailsVO.setEmail(userInfo.getEmail());
+        userInfoDetailsVO.setAvatar(userInfo.getAvatar());
+        userInfoDetailsVO.setNickName(userInfo.getNickName());
+
+
+        return userInfoDetailsVO;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean editUserDetails(UserInfoDetailsVO userInfoDetailsVO) {
+
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setId(userInfoDetailsVO.getId());
+
+        //TODO
+//        userInfo.setAvatar(userInfoDetailsVO.getAvatar());
+
+        userInfo.setNickName(userInfoDetailsVO.getNickName());
+        userInfo.setName(userInfoDetailsVO.getName());
+        userInfo.setEmail(userInfoDetailsVO.getEmail());
+        userInfo.setAddress(userInfoDetailsVO.getAddress());
+
+
+        int result = baseMapper.updateById(userInfo);
+        return result > 0;
+    }
+
+    @Override
+    public boolean validUserNickName(String nickName) {
+
+        Assert.notNull(nickName,ResponseEnum.NICK_NAME_NULL_ERROR);
+
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.eq("nick_name",nickName);
+        Integer result = baseMapper.selectCount(userInfoQueryWrapper);
+
+        if(result > 0){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean editNickName(String nickName,Long id) {
+
+        Assert.notNull(nickName,ResponseEnum.NICK_NAME_NULL_ERROR);
+
+        QueryWrapper<UserInfo> userInfoQueryWrapper = new QueryWrapper<>();
+        userInfoQueryWrapper.eq("nick_name",nickName);
+        Integer result = baseMapper.selectCount(userInfoQueryWrapper);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setNickName(nickName);
+
+        if(result > 0){
+            return false;
+        }else{
+            return baseMapper.updateById(userInfo) > 0 ? true : false;
+        }
+    }
+
+
 }

@@ -8,6 +8,7 @@ import com.kimi.common.util.RegexValidateUtils;
 import com.kimi.kel.base.util.JwtUtils;
 import com.kimi.kel.core.pojo.vo.LoginVO;
 import com.kimi.kel.core.pojo.vo.RegisterVO;
+import com.kimi.kel.core.pojo.vo.UserInfoDetailsVO;
 import com.kimi.kel.core.pojo.vo.UserInfoVO;
 import com.kimi.kel.core.service.UserInfoService;
 import io.swagger.annotations.Api;
@@ -101,6 +102,47 @@ public class UserInfoController {
     @GetMapping("/checkMobile/{mobile}")
     public boolean checkMobile(@PathVariable String mobile){
         return userInfoService.checkMobile(mobile);
+    }
+
+    @ApiOperation("取出用户个人信息")
+    @GetMapping("/getUserDetailsByMobile/{mobile}")
+    public R getUserDetailsByMobile(@PathVariable String mobile){
+        UserInfoDetailsVO userInfoDetails = userInfoService.getUserDetailsByMobile(mobile);
+        return R.ok().data("userInfo",userInfoDetails);
+    }
+
+    @ApiOperation("修改用户个人信息")
+    @PostMapping("/editUserDetails")
+    public R editUserDetails(@RequestBody UserInfoDetailsVO userInfoDetailsVO){
+        boolean result = userInfoService.editUserDetails(userInfoDetailsVO);
+        if(result  ){
+        return  R.ok().message("修改成功");}else{
+            return R.error().message("修改失败");
+        }
+    }
+
+    @ApiOperation("判断用户昵称是否存在")
+    @GetMapping("/validUserNickName/{nickName}")
+    public R validUserNickName(@PathVariable String nickName){
+        boolean result = userInfoService.validUserNickName(nickName);
+        if(!result){
+            return R.ok().message("用户名不存在，可注册");
+        }else{
+            return R.error().message("用户名已存在");
+        }
+    }
+
+
+    @ApiOperation("修改昵称")
+    @GetMapping("/editNickName/{nickName}/{id}")
+    public R editNickName(@PathVariable String nickName,
+                          @PathVariable Long id){
+        boolean result = userInfoService.editNickName(nickName,id);
+        if(result){
+            return R.ok().message("修改成功");
+        }else{
+            return R.error().message("用户名已存在");
+        }
     }
 }
 
