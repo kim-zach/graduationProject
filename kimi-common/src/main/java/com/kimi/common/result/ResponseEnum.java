@@ -33,6 +33,7 @@ public enum ResponseEnum {
     LOGIN_LOKED_ERROR(210, "用户被锁定"),
     LOGIN_AUTH_ERROR(-211, "未登录"),
     NICK_NAME_NULL_ERROR(-212,"昵称不能为空" ),
+    AVATAR_URL_NULL_ERROR(-212,"头像URL不能为空" ),
 
 
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),

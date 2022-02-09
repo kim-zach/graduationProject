@@ -23,6 +23,7 @@ import com.kimi.kel.core.pojo.vo.UserInfoVO;
 import com.kimi.kel.core.service.UserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kimi.kel.core.service.UserLoginRecordService;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -231,6 +232,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         }else{
             return baseMapper.updateById(userInfo) > 0 ? true : false;
         }
+    }
+
+    @Override
+    public boolean updateUserAvatar(Long id, String avatarUrl) {
+
+        Assert.notNull(avatarUrl,ResponseEnum.AVATAR_URL_NULL_ERROR);
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo.setAvatar(avatarUrl);
+
+        int result = baseMapper.updateById(userInfo);
+
+        return result > 0 ;
     }
 
 

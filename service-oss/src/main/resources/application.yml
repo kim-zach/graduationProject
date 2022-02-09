@@ -13,9 +13,24 @@ spring:
       discovery:
         server-addr: localhost:8848 # nacos服务地址
 
+        #  spring.servlet.multipart.max-file-size = 10MB
+        #  spring.servlet.multipart.max-request-size=100MB
+#        文件上传限制
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
 aliyun:
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com
     keyId: LTAI5tB1hMFcsxip54YJbEiz
     keySecret: 6MoX5olwNOtMjQTjLTsgyUId80Ia3R
     bucketName: kel-file-kimi
+
+system:
+  sun:
+    net:
+      client:
+        defaultConnectTimeout: 10000ms
+        defaultReadTimeout: 10000ms

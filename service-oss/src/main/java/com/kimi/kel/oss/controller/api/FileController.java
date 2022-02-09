@@ -58,5 +58,26 @@ public class FileController {
             return R.error().message("删除失败");
         }
     }
+
+    @ApiOperation("上传用户头像")
+    @PostMapping("/uploadUserImage")
+    public String uploadUserImage(
+            @ApiParam(value = "文件", required = true)
+            @RequestParam("file") MultipartFile file,
+
+            @ApiParam(value = "模块",required = true)
+            @RequestParam("module") String module
+                             ){
+        String url = null;
+        try {
+            InputStream inputStream = file.getInputStream();
+            String fileName = file.getOriginalFilename();
+            url = fileService.upload(inputStream, module, fileName);
+            return url;
+
+        } catch (IOException e) {
+            throw new BusinessException(ResponseEnum.UPLOAD_ERROR,e);
+        }
+    }
 }
 

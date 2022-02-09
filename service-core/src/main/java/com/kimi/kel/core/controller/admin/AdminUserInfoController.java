@@ -8,6 +8,7 @@ import com.kimi.common.result.R;
 import com.kimi.common.result.ResponseEnum;
 import com.kimi.common.util.RegexValidateUtils;
 import com.kimi.kel.base.util.JwtUtils;
+import com.kimi.kel.core.client.OssUploadAvatarClient;
 import com.kimi.kel.core.pojo.entities.UserInfo;
 import com.kimi.kel.core.pojo.query.UserInfoQuery;
 import com.kimi.kel.core.pojo.vo.LoginVO;
@@ -20,6 +21,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminUserInfoController {
 
 
+    @Resource
+    private OssUploadAvatarClient ossUploadAvatarClient;
 
     @Resource
     private UserInfoService userInfoService;
@@ -74,6 +78,7 @@ public class AdminUserInfoController {
 
         return R.ok().message(status == 1?"解锁成功":"锁定成功");
     }
+
 
 
 

@@ -6,6 +6,7 @@ import com.kimi.common.result.R;
 import com.kimi.common.result.ResponseEnum;
 import com.kimi.common.util.RegexValidateUtils;
 import com.kimi.kel.base.util.JwtUtils;
+import com.kimi.kel.core.client.OssUploadAvatarClient;
 import com.kimi.kel.core.pojo.vo.LoginVO;
 import com.kimi.kel.core.pojo.vo.RegisterVO;
 import com.kimi.kel.core.pojo.vo.UserInfoDetailsVO;
@@ -13,14 +14,19 @@ import com.kimi.kel.core.pojo.vo.UserInfoVO;
 import com.kimi.kel.core.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.PublicKey;
+
+import static com.kimi.kel.core.pojo.entities.Constant.AVATAR;
 
 /**
  * <p>
@@ -37,8 +43,13 @@ import java.security.PublicKey;
 @RequestMapping("/api/core/userInfo")
 public class UserInfoController {
 
+
+    public static final long LIMIT_SIZE_OF_THE_AVATAR = 10485760l;
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private OssUploadAvatarClient ossUploadAvatarClient;
 
     @Resource
     private UserInfoService userInfoService;
@@ -142,6 +153,35 @@ public class UserInfoController {
             return R.ok().message("修改成功");
         }else{
             return R.error().message("用户名已存在");
+        }
+    }
+
+    @ApiOperation("用户上传头像")
+    @PostMapping("/uploadAvatarImage/{id}")
+    public R uploadAvatarImage(
+            @ApiParam(value = "文件", required = true)
+            @RequestParam("file") MultipartFile file,
+
+            @ApiParam(value = "id",required = true)
+            @PathVariable("id") Long id
+    )
+    {
+        String module = AVATAR;
+
+
+
+        long size = file.getSize();
+        if(size > LIMIT_SIZE_OF_THE_AVATAR){
+            return R.error().message("文件过大");
+        }
+
+        String avatarUrl = ossUploadAvatarClient.uploadUserImage(file, module);
+        boolean result = userInfoService.updateUserAvatar(id,avatarUrl);
+
+        if(result){
+            return R.ok().message("更新头像成功");
+        }else{
+            return R.error().message("更新头像失败");
         }
     }
 }

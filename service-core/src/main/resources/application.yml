@@ -32,6 +32,15 @@ spring:
       discovery:
         server-addr: localhost:8848 # nacos服务地址
 
+        #  spring.servlet.multipart.max-file-size = 10MB
+        #  spring.servlet.multipart.max-request-size=100MB
+  #        文件上传限制
+  servlet:
+    multipart:
+      max-file-size: 12MB
+      max-request-size: 100MB
+
+
 
 
 
@@ -45,3 +54,36 @@ mybatis-plus: #mybatis
 #logging:
 #  level:
 #    root: error
+
+
+#read timed out 客户端与服务器握手成功，但是客户端没有在限定时间内返回数据给服务器 not this
+#system:
+#  sun:
+#    net:
+#      client:
+#        defaultConnectTimeout: 10000ms
+#        defaultReadTimeout: 10000ms
+
+# 全局关闭Hystrix超时,对所有微服务有效
+#hystrix.command.default.execution.timeout.enabled: false
+# 设置ribbon超时时间
+#ribbon:
+#  ReadTimeout: 20000
+#  ConnectTimeout: 20000
+
+
+ribbon:
+  #Ribbon允许最大连接数，即所有后端微服务实例请求并发数之和的最大值。
+  MaxTotalConnections: 500
+  #单个后端微服务实例能接收的最大请求并发数
+  MaxConnectionsPerHost: 500
+  ReadTimeout: 5000
+  ConnectTimeout: 10000
+  #懒加载有可能出现read timed out错误，配置立即加载解决
+
+#  eager-load:
+#    enabled: true
+#    clients: service-oss,service-core,service-sms,service-gateway
+
+
+

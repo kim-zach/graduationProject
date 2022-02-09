@@ -39,4 +39,6 @@ public interface UserInfoService extends IService<UserInfo> {
 
     boolean editNickName(String nickName,Long id);
 
+    boolean updateUserAvatar(Long id, String avatarUrl);
+
 }
