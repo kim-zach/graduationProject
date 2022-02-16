@@ -44,6 +44,11 @@
         select word_spell
         from default_word
     </select>
+    <select id="selectWordSpellByTag" parameterType="java.lang.String" resultType="java.lang.String">
+        select word_spell
+        from default_word
+        where tag = #{tag}
+    </select>
 
     <!--                      when word_spell=#{item.wordSpell} then concat('select tag from default_word where word_spell = #{item.word_spell}' ,',','#{item.tag}')-->
 

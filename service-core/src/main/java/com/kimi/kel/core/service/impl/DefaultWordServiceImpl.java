@@ -2,11 +2,17 @@ package com.kimi.kel.core.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kimi.common.exception.Assert;
+import com.kimi.common.result.ResponseEnum;
 import com.kimi.kel.core.listener.ExcelDefaultWordDTOListener;
-import com.kimi.kel.core.listener.ExcelInitialWordDTOListener;
 import com.kimi.kel.core.pojo.dto.ExcelInitialWordDTO;
 import com.kimi.kel.core.pojo.entities.DefaultWord;
 import com.kimi.kel.core.mapper.DefaultWordMapper;
+import com.kimi.kel.core.pojo.entities.UserInfo;
+import com.kimi.kel.core.pojo.vo.CardLearningVO;
 import com.kimi.kel.core.service.DefaultWordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class DefaultWordServiceImpl extends ServiceImpl<DefaultWordMapper, DefaultWord> implements DefaultWordService {
 
+    public static final int VAL = 0;
     @Resource
     private RedisTemplate redisTemplate;
 
@@ -80,6 +87,78 @@ public class DefaultWordServiceImpl extends ServiceImpl<DefaultWordMapper, Defau
         }
         //返回数据列表
         return defaultWordList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean selectWordsByTag(String tag) {
+
+        QueryWrapper<DefaultWord> defaultWordQueryWrapper = new QueryWrapper<>();
+        defaultWordQueryWrapper.eq("tag",tag);
+
+        //缓存中有则不到数据库取
+        Long size = redisTemplate.opsForSet().size("kel:core:chosenSet:"+tag);
+        if(size > 0 ){
+            return true;
+        }
+
+        //取出tag相关单词
+        List<String> defaultWordListByTag = baseMapper.selectWordSpellByTag(tag);
+
+        if(defaultWordListByTag.size() > 0){
+            for(String d : defaultWordListByTag){
+
+                 redisTemplate.opsForSet().add("kel:core:chosenSet:"+tag, d);
+            }
+            Long add = redisTemplate.opsForSet().size("kel:core:chosenSet:"+tag);
+            log.info("add :{}",add);
+            return add > 0;
+        }
+
+        return false;
+    }
+
+    @Override
+    public IPage<DefaultWord> listWordsPageByTag(Page<DefaultWord> wordsPage, String tag) {
+
+        Assert.notNull(tag, ResponseEnum.WORD_TAG_NULL_ERROR);
+        //存储数据到redis中
+        this.selectWordsByTag(tag);
+
+        QueryWrapper<DefaultWord> defaultWordQueryWrapper = new QueryWrapper<>();
+        defaultWordQueryWrapper.like("tag",tag).notLike("parent_id", VAL);
+
+        return  baseMapper.selectPage(wordsPage,defaultWordQueryWrapper);
+    }
+
+    @Override
+    public IPage<DefaultWord> searchWordsPageByTag(Page<DefaultWord> wordsPage, String wordSpell) {
+
+        Assert.notNull(wordSpell,ResponseEnum.WORD_NOT_NULL_ERROR);
+
+        QueryWrapper<DefaultWord> defaultWordQueryWrapper = new QueryWrapper<>();
+        defaultWordQueryWrapper.eq("word_spell",wordSpell).or().like("word_spell",wordSpell);
+
+        Page<DefaultWord> defaultWordPage = baseMapper.selectPage(wordsPage, defaultWordQueryWrapper);
+        return defaultWordPage;
+
+    }
+
+    @Override
+    public CardLearningVO searchWordsRandomly(String tag) {
+
+        Object member = redisTemplate.opsForSet().randomMember("kel:core:chosenSet:"+tag);
+
+        QueryWrapper<DefaultWord> defaultWordQueryWrapper = new QueryWrapper<>();
+        defaultWordQueryWrapper.eq("word_spell",member);
+
+        DefaultWord defaultWord = baseMapper.selectOne(defaultWordQueryWrapper);
+
+        CardLearningVO cardLearningVO = new CardLearningVO();
+        cardLearningVO.setWordSpell(defaultWord.getWordSpell());
+        cardLearningVO.setDescription(defaultWord.getDescription());
+
+        return cardLearningVO;
     }
 
     /**

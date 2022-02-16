@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kimi.kel.core.mapper.WordModulesMapper">
 
+    <select id="getTags" resultType="java.lang.String">
+        select tag from word_modules
+    </select>
 </mapper>

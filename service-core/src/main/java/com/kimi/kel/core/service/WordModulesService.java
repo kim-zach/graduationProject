@@ -3,6 +3,8 @@ package com.kimi.kel.core.service;
 import com.kimi.kel.core.pojo.entities.WordModules;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -14,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WordModulesService extends IService<WordModules> {
 
     boolean ifExistModule(String tag);
+
+    List<String> getModules();
+
 }

@@ -77,13 +77,13 @@ ribbon:
   MaxTotalConnections: 500
   #单个后端微服务实例能接收的最大请求并发数
   MaxConnectionsPerHost: 500
-  ReadTimeout: 5000
+  ReadTimeout: 10000
   ConnectTimeout: 10000
   #懒加载有可能出现read timed out错误，配置立即加载解决
 
-#  eager-load:
-#    enabled: true
-#    clients: service-oss,service-core,service-sms,service-gateway
+  eager-load:
+    enabled: true
+    clients: service-oss,service-core,service-sms,service-gateway
 
 
 

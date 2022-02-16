@@ -23,4 +23,5 @@ public interface DefaultWordMapper extends BaseMapper<DefaultWord> {
 
     Set<String>  selectWordSpell();
 
+    List<String> selectWordSpellByTag(String tag);
 }
