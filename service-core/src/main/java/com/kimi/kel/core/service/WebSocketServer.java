@@ -179,7 +179,7 @@ public class WebSocketServer {
      * 群发自定义消息
      */
     public static void sendInfo(String message, @PathParam("sid") String sid) throws IOException {
-        log.info("推送消息到窗口" + sid + "，推送内容:" + message);
+        log.info("推送消息到窗口" + sid + "，推送的内容:" + message);
 
         CopyOnWriteArraySet<WebSocketServer> users = webSocketSet.get(sid);
 
