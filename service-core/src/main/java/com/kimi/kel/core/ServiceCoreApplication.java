@@ -2,10 +2,11 @@ package com.kimi.kel.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication()
 @ComponentScan({"com.kimi.kel","com.kimi.common"})
 @EnableFeignClients
 public class ServiceCoreApplication {

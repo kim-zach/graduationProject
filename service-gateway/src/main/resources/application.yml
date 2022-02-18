@@ -30,3 +30,7 @@ spring:
           uri: lb://service-oss
           predicates:
             - Path=/*/oss/**
+        - id: service-vod
+          uri: lb://service-vod
+          predicates:
+            - Path=/*/vod/**

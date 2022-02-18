@@ -10,6 +10,7 @@
         <module>service-oss</module>
         <module>service-sms</module>
         <module>service-gateway</module>
+        <module>service-vod</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -40,9 +41,13 @@
         <json.version>20170516</json.version>
         <aliyun-java-sdk-core.version>4.3.3</aliyun-java-sdk-core.version>
         <aliyun-sdk-oss.version>3.10.2</aliyun-sdk-oss.version>
+        <aliyun-java-sdk-vod.version>2.15.2</aliyun-java-sdk-vod.version>
+        <aliyun-java-vod-upload.version>1.4.11</aliyun-java-vod-upload.version>
+        <aliyun-sdk-vod-upload.version>1.4.11</aliyun-sdk-vod-upload.version>
         <jodatime.version>2.10.1</jodatime.version>
         <jwt.version>0.7.0</jwt.version>
         <httpclient.version>4.5.1</httpclient.version>
+        <lombook.version>1.18.14</lombook.version>
     </properties>
     <dependencyManagement>
         <dependencies>

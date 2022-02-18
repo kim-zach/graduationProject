@@ -34,6 +34,9 @@ public enum ResponseEnum {
     LOGIN_AUTH_ERROR(-211, "未登录"),
     NICK_NAME_NULL_ERROR(-212,"昵称不能为空" ),
     AVATAR_URL_NULL_ERROR(-212,"头像URL不能为空" ),
+    WORD_SPELL_NOT_NULL_ERROR(-213,"搜索单词不能为空" ),
+    WORD_NOT_NULL_ERROR(-214,"存储单词不能为空" ),
+    WORD_ID_NOT_NULL_ERROR(-215,"删除单词id不能为空" ),
 
 
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),

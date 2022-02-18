@@ -99,6 +99,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         //组装userInfoVO
         UserInfoVO userInfoVO = new UserInfoVO();
+        userInfoVO.setId(userInfo.getId());
         userInfoVO.setToken(token);
         userInfoVO.setName(userInfo.getName());
         userInfoVO.setNickName(userInfo.getNickName());

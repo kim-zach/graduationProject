@@ -41,7 +41,6 @@ public class InitialWordServiceImpl extends ServiceImpl<InitialWordMapper, Defau
 //    @Resource
 //    private DictMapper dictMapper;
 
-
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public void importData(InputStream inputStream) {

@@ -168,8 +168,6 @@ public class UserInfoController {
     {
         String module = AVATAR;
 
-
-
         long size = file.getSize();
         if(size > LIMIT_SIZE_OF_THE_AVATAR){
             return R.error().message("文件过大");
