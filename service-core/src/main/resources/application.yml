@@ -37,8 +37,8 @@ spring:
   #        文件上传限制
   servlet:
     multipart:
-      max-file-size: 12MB
-      max-request-size: 100MB
+      max-file-size: 1024MB
+      max-request-size: 10240MB
 
 
 
@@ -67,23 +67,23 @@ mybatis-plus: #mybatis
 # 全局关闭Hystrix超时,对所有微服务有效
 #hystrix.command.default.execution.timeout.enabled: false
 # 设置ribbon超时时间
-#ribbon:
-#  ReadTimeout: 20000
-#  ConnectTimeout: 20000
-
-
 ribbon:
-  #Ribbon允许最大连接数，即所有后端微服务实例请求并发数之和的最大值。
-  MaxTotalConnections: 500
-  #单个后端微服务实例能接收的最大请求并发数
-  MaxConnectionsPerHost: 500
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
-  #懒加载有可能出现read timed out错误，配置立即加载解决
+  ReadTimeout: 20000000
+  ConnectTimeout: 2000000
 
-  eager-load:
-    enabled: true
-    clients: service-oss,service-core,service-sms,service-gateway
+
+#ribbon:
+#  #Ribbon允许最大连接数，即所有后端微服务实例请求并发数之和的最大值。
+#  MaxTotalConnections: 500
+#  #单个后端微服务实例能接收的最大请求并发数
+#  MaxConnectionsPerHost: 500
+#  ReadTimeout: 10000
+#  ConnectTimeout: 10000
+#  #懒加载有可能出现read timed out错误，配置立即加载解决
+
+#  eager-load:
+#    enabled: true
+#    clients: service-oss,service-core,service-sms,service-gateway,service-vod
 
 
 

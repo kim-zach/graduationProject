@@ -11,6 +11,10 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 # nacos服务地址
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 10240MB
 
 aliyun:
   vod:

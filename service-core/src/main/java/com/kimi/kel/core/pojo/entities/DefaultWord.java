@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author kimi
- * @since 2022-02-06
+ * @since 2022-02-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -48,7 +48,6 @@ public class DefaultWord implements Serializable {
     @TableField("is_deleted")
     @TableLogic
     private Boolean deleted;
-
 
     @TableField(exist = false) //表达逻辑概念的属性，和物理表没有关系，当前字段不存在物理表中
     private boolean hasChildren;

@@ -41,7 +41,7 @@ import static com.kimi.kel.core.pojo.entities.Constant.AVATAR;
 @Slf4j
 @RestController
 @RequestMapping("/api/core/userInfo")
-public class UserInfoController {
+public class ApiUserInfoController {
 
 
     public static final long LIMIT_SIZE_OF_THE_AVATAR = 10485760l;

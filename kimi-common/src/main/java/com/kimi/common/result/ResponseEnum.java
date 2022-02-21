@@ -37,6 +37,14 @@ public enum ResponseEnum {
     WORD_SPELL_NOT_NULL_ERROR(-213,"搜索单词不能为空" ),
     WORD_NOT_NULL_ERROR(-214,"存储单词不能为空" ),
     WORD_ID_NOT_NULL_ERROR(-215,"删除单词id不能为空" ),
+    USER_ID_NOT_NULL_ERROR(-215,"上传视频用户id不能为空" ),
+
+
+    TAG_NOT_NULL_ERROR(-216,"上传视频标签不能为空" ),
+    TITLE_NOT_NULL_ERROR(-217,"上传视频标题不能为空" ),
+    BRIEF_NOT_NULL_ERROR(-218,"上传视频简介不能为空" ),
+    VIDEO_SOURCE_ID_NOT_NULL_ERROR(-219,"上传视频不能为空" ),
+    VIDEO_ID_NOT_NULL_ERROR(-219,"查询视频id不能为空" ),
 
 
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),
@@ -56,6 +64,8 @@ public enum ResponseEnum {
     WEIXIN_CALLBACK_PARAM_ERROR(-601, "回调参数不正确"),
     WEIXIN_FETCH_ACCESSTOKEN_ERROR(-602, "获取access_token失败"),
     WEIXIN_FETCH_USERINFO_ERROR(-603, "获取用户信息失败");
+
+
 
 
     //响应状态码

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimi.kel.core.mapper.VideoCommentMapper">
+
+    <select id="selectByVideoId" resultType="com.kimi.kel.core.pojo.entities.VideoComment" parameterType="java.lang.Long">
+        select * from video_comment where video_id = #{videoId}
+    </select>
+    <select id="getCommentsByVideoId" resultType="com.kimi.kel.core.pojo.vo.CommentVO">
+
+    </select>
+
+
+</mapper>

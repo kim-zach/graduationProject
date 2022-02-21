@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kimi.kel.core.mapper.VideoMapper">
+
+    <update id="updateViewAmount" parameterType="long">
+        update video set view_amount = view_amount + 1 where id = #{videoId}
+    </update>
+    <update id="increaseClickAmount" parameterType="long">
+        update video set click_amount = click_amount + 1 where id = #{videoId}
+    </update>
+    <update id="decreaseClickAmount" parameterType="long">
+        update video set click_amount = click_amount - 1 where id = #{videoId}
+    </update>
+</mapper>
