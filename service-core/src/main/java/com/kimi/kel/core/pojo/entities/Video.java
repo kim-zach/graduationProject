@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author kimi
- * @since 2022-02-18
+ * @since 2022-02-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,7 +27,7 @@ public class Video implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
-//      @TableId(value = "id", type = IdType.AUTO)
+      @TableId(value = "id")
     private Long id;
 
     @ApiModelProperty(value = "上传视频作者")
@@ -38,15 +38,15 @@ public class Video implements Serializable {
 
     private Integer viewAmount;
 
-    private Integer collectAmount;
-
     private Integer clickAmount;
+
+    private Integer collectAmount;
 
     private String title;
 
     private String brief;
 
-    @ApiModelProperty(value = "0:未审核：2：审核不通过，1：审核通过")
+    @ApiModelProperty(value = "0:未审核；2：审核不通过，1：审核通过")
     private Integer status;
 
     private LocalDateTime createTime;

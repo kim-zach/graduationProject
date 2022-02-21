@@ -187,16 +187,39 @@ public class ApiVideoController {
 
 
     @ApiOperation("点赞视频")
-    @GetMapping("/likeOrDisLikeVideo/{videoId}/{favor}")
+    @GetMapping("/likeOrDisLikeVideo/{videoId}/{favor}/{userId}")
     public R likeorDisLikeVideo(
             @ApiParam(value = "视频ID",required = true)
             @PathVariable Long videoId,
+            @ApiParam(value = "用户Id",required = true)
+            @PathVariable Long userId,
             @ApiParam(value = "0点赞，1取消",required = true)
             @PathVariable Integer favor
     ){
         Assert.notNull(videoId,ResponseEnum.VIDEO_ID_NOT_NULL_ERROR);
         Assert.notNull(favor,ResponseEnum.VIDEO_ID_NOT_NULL_ERROR);
-        boolean result =  videoService.likeOrDisLikeVideo(videoId,favor);
+        boolean result =  videoService.likeOrDisLikeVideo(videoId,favor,userId);
+        if(result){
+            return R.ok();
+        }
+        return R.error();
+    }
+
+
+
+    @ApiOperation("收藏视频")
+    @GetMapping("/collectOrDiscollectVideo/{videoId}/{favor}/{userId}")
+    public R collectOrDiscollectVideo(
+            @ApiParam(value = "视频ID",required = true)
+            @PathVariable Long videoId,
+            @ApiParam(value = "用户Id",required = true)
+            @PathVariable Long userId,
+            @ApiParam(value = "0点赞，1取消",required = true)
+            @PathVariable Integer favor
+    ){
+        Assert.notNull(videoId,ResponseEnum.VIDEO_ID_NOT_NULL_ERROR);
+        Assert.notNull(favor,ResponseEnum.VIDEO_ID_NOT_NULL_ERROR);
+        boolean result =  videoService.collectOrDiscollectVideo(videoId,favor,userId);
         if(result){
             return R.ok();
         }

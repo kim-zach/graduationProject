@@ -9,6 +9,8 @@ import com.kimi.kel.core.pojo.vo.VideoDetailsVO;
 import com.kimi.kel.core.pojo.vo.VideoInfoVO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -35,6 +37,9 @@ public interface VideoService extends IService<Video> {
 
     boolean addViewAmount(Long videoId);
 
-    boolean likeOrDisLikeVideo(Long videoId, Integer favor);
+    boolean likeOrDisLikeVideo(Long videoId, Integer favor,Long userId);
 
+    boolean collectOrDiscollectVideo(Long videoId, Integer favor, Long userId);
+
+    IPage<Video> getVideoDetailsByVideoIdList(Page<Video> videoPage, List<Long> videoIdList);
 }

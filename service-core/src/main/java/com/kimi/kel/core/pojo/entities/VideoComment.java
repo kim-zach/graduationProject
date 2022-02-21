@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author kimi
- * @since 2022-02-18
+ * @since 2022-02-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,7 +26,6 @@ public class VideoComment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-//      @TableId(value = "id", type = IdType.AUTO)
       @TableId(value = "id")
     private Long id;
 

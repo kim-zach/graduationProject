@@ -18,4 +18,8 @@ public interface VideoMapper extends BaseMapper<Video> {
     boolean increaseClickAmount(Long videoId);
 
     boolean decreaseClickAmount(Long videoId);
+
+    boolean increaseCollectAmount(Long videoId);
+
+    boolean decreaseCollectAmount(Long videoId);
 }

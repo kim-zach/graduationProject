@@ -5,12 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kimi.kel.core.client.VodUploadVideoClient;
-import com.kimi.kel.core.mapper.UserInfoMapper;
-import com.kimi.kel.core.mapper.VideoCommentMapper;
-import com.kimi.kel.core.pojo.entities.Video;
-import com.kimi.kel.core.mapper.VideoMapper;
-import com.kimi.kel.core.pojo.entities.VideoComment;
-import com.kimi.kel.core.pojo.entities.WordVocabularyNotebook;
+import com.kimi.kel.core.mapper.*;
+import com.kimi.kel.core.pojo.entities.*;
 import com.kimi.kel.core.pojo.query.VideoInfoQuery;
 import com.kimi.kel.core.pojo.vo.VideoDetailsVO;
 import com.kimi.kel.core.pojo.vo.VideoInfoVO;
@@ -20,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,6 +33,7 @@ import java.util.List;
 public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements VideoService {
 
     public static final int LIKE = 0;
+    public static final int COLLECT = 0;
     @Resource
     private VodUploadVideoClient vodUploadVideoClient;
 
@@ -47,6 +45,12 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
 
     @Resource
     private VideoMapper videoMapper;
+
+    @Resource
+    private VideoLikeMapper videoLikeMapper;
+
+    @Resource
+    private VideoCollectMapper videoCollectMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -162,17 +166,60 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         return result;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean likeOrDisLikeVideo(Long videoId, Integer favor) {
+    public boolean likeOrDisLikeVideo(Long videoId, Integer favor,Long userId) {
         boolean result = false;
         if(favor == LIKE){
             result  = videoMapper.increaseClickAmount(videoId);
-            return result;
+            //我的点赞
+            VideoLike videoLike = new VideoLike();
+            videoLike.setVideoId(videoId);
+            videoLike.setUserId(userId);
+            int insert = videoLikeMapper.insert(videoLike);
+            return result && insert>0;
         }else{
             result = videoMapper.decreaseClickAmount(videoId);
-            return result;
+            QueryWrapper<VideoLike> videoLikeQueryWrapper = new QueryWrapper<>();
+            videoLikeQueryWrapper
+                    .eq("video_id",videoId)
+                    .eq("user_id",userId);
+            int delete = videoLikeMapper.delete(videoLikeQueryWrapper);
+            return result && delete > 0;
         }
 
+    }
+
+    @Override
+    public boolean collectOrDiscollectVideo(Long videoId, Integer favor, Long userId) {
+        boolean result = false;
+        if(favor == COLLECT){
+            result  = videoMapper.increaseCollectAmount(videoId);
+            //我的点赞
+            VideoCollect videoCollect = new VideoCollect();
+            videoCollect.setVideoId(videoId);
+            videoCollect.setUserId(userId);
+            int insert = videoCollectMapper.insert(videoCollect);
+            return result && insert>0;
+        }else{
+            result = videoMapper.decreaseCollectAmount(videoId);
+            QueryWrapper<VideoCollect> videoCollectQueryWrapper = new QueryWrapper<>();
+            videoCollectQueryWrapper
+                    .eq("video_id",videoId)
+                    .eq("user_id",userId);
+            int delete = videoCollectMapper.delete(videoCollectQueryWrapper);
+            return result && delete > 0;
+        }
+    }
+
+    @Override
+    public IPage<Video> getVideoDetailsByVideoIdList(Page<Video> videoPage, List<Long> videoIdList) {
+
+        QueryWrapper<Video> videoQueryWrapper = new QueryWrapper<>();
+        for(Long vid : videoIdList){
+            videoQueryWrapper.eq(vid != null,"id",vid).or();
+        }
+        return baseMapper.selectPage(videoPage,videoQueryWrapper);
     }
 
 

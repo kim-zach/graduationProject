@@ -21,17 +21,19 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="VideoUserCollected对象", description="")
-public class VideoUserCollected implements Serializable {
+@ApiModel(value="VideoLike对象", description="")
+public class VideoLike implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
       @TableId(value = "id")
     private Long id;
 
-    private Long userId;
-
+    @TableField("video_id")
     private Long videoId;
+
+    @TableField("user_id")
+    private Long userId;
 
     private LocalDateTime createTime;
 

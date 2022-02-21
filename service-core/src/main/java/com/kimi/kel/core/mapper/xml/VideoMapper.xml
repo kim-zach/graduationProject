@@ -11,4 +11,10 @@
     <update id="decreaseClickAmount" parameterType="long">
         update video set click_amount = click_amount - 1 where id = #{videoId}
     </update>
+    <update id="increaseCollectAmount" parameterType="long">
+        update video set collect_amount = collect_amount + 1 where id = #{videoId}
+    </update>
+    <update id="decreaseCollectAmount" parameterType="long">
+        update video set collect_amount = collect_amount - 1 where id = #{videoId}
+    </update>
 </mapper>
