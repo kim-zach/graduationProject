@@ -1,6 +1,7 @@
 package com.kimi.kel.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kimi.common.util.MD5;
 import com.kimi.kel.core.pojo.entities.Administrator;
 import com.kimi.kel.core.mapper.AdministratorMapper;
 import com.kimi.kel.core.service.AdministratorService;
@@ -21,7 +22,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     @Override
     public boolean ifExists(String name, String password) {
         QueryWrapper<Administrator> administratorQueryWrapper = new QueryWrapper<>();
-        administratorQueryWrapper.eq("user_name",name).eq("password",password);
+        administratorQueryWrapper.eq("user_name",name).eq("password", MD5.encrypt(password));
         Administrator administrator = baseMapper.selectOne(administratorQueryWrapper);
         if (administrator != null) {
             return true;

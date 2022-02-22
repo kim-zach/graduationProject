@@ -47,6 +47,11 @@ public enum ResponseEnum {
     VIDEO_ID_NOT_NULL_ERROR(-219,"查询视频id不能为空" ),
 
 
+    USERNAME_NOT_NULL_ERROR(-300,"管理员用户名不能为空" ),
+    PASSWORD_NOT_NULL_ERROR(-301,"管理员密码不能为空" ),
+    PASSWORD_LENGTH_SHOULD_BE_LONGER_THAN_SIX(-302,"管理员密码不能小于六位数"),
+
+
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),
     USER_NO_BIND_ERROR(302, "用户未绑定"),
     USER_NO_AMOUNT_ERROR(303, "用户信息未审核"),
