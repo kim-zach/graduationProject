@@ -13,6 +13,7 @@ public interface OssUploadAvatarClient {
 
     @ApiOperation(value = "用户头像上传")
     @PostMapping(value = "/api/oss/file/uploadUserImage",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)  //访问地址要写全
+//    @PostMapping(value = "/api/oss/file/uploadUserImage")  //访问地址要写全
     String uploadUserImage(
             @ApiParam(value = "文件", required = true)
             @RequestPart(value = "file") MultipartFile file,

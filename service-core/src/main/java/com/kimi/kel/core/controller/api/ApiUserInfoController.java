@@ -1,6 +1,7 @@
 package com.kimi.kel.core.controller.api;
 
 
+import com.alibaba.fastjson.JSON;
 import com.kimi.common.exception.Assert;
 import com.kimi.common.result.R;
 import com.kimi.common.result.ResponseEnum;
@@ -15,6 +16,7 @@ import com.kimi.kel.core.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -174,6 +176,7 @@ public class ApiUserInfoController {
         }
 
         String avatarUrl = ossUploadAvatarClient.uploadUserImage(file, module);
+        avatarUrl = (String)JSON.parse(avatarUrl);
         boolean result = userInfoService.updateUserAvatar(id,avatarUrl);
 
         if(result){
