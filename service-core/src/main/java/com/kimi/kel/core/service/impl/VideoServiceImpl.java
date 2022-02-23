@@ -215,6 +215,10 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     @Override
     public IPage<Video> getVideoDetailsByVideoIdList(Page<Video> videoPage, List<Long> videoIdList) {
 
+        if(CollectionUtils.isEmpty(videoIdList)){
+            return null;
+        }
+
         QueryWrapper<Video> videoQueryWrapper = new QueryWrapper<>();
         for(Long vid : videoIdList){
             videoQueryWrapper.eq(vid != null,"id",vid).or();
