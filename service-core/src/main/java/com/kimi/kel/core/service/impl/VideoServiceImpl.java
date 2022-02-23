@@ -216,7 +216,8 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     public IPage<Video> getVideoDetailsByVideoIdList(Page<Video> videoPage, List<Long> videoIdList) {
 
         if(CollectionUtils.isEmpty(videoIdList)){
-            return null;
+            IPage<Video> videoIPage = new Page<Video>();
+            return videoIPage;
         }
 
         QueryWrapper<Video> videoQueryWrapper = new QueryWrapper<>();
