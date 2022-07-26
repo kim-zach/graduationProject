@@ -24,8 +24,8 @@ spring:
 aliyun:
   oss:
     endpoint: oss-cn-shenzhen.aliyuncs.com
-    keyId: LTAI5tB1hMFcsxip54YJbEiz
-    keySecret: 6MoX5olwNOtMjQTjLTsgyUId80Ia3R
+    keyId: 
+    keySecret: 
     bucketName: kel-file-kimi
 
 system:
